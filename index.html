@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JS Enterprise</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+  <div class="top-contact-bar">
+    📞 Phone: +91 891 039 8260 | ✉️ Email: jul@jsenterprise.in
+  </div>
+  <div class="overlay">
+    <h1>JS Enterprise</h1>
+    <p>Iron Platforms | Steel Structures | Sheds | Sliding Gates</p>
+  </div>
+</header>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+<canvas id="bgCanvas"></canvas>
+<div id="content-wrapper">
+  <section id="home">
+    <h2>Welcome to JS Enterprise</h2>
+    <p>We provide full contract solutions for mechanical construction, including labor and materials. Reliable, experienced, and quality-focused, we pride ourselves on delivering projects that meet the highest standards of safety, durability, and efficiency.
+
+Our expert team specializes in fabricating and installing iron platforms, steel structures, sheds, and sliding gates tailored to your specific needs. With years of industry experience, we understand the unique challenges of mechanical construction and are committed to providing innovative solutions that drive success.
+
+At JS Enterprise, customer satisfaction is our top priority. We work closely with you from project inception to completion, ensuring transparent communication, timely delivery, and exceptional craftsmanship. Whether your project is industrial, commercial, or custom-designed, trust us to bring your vision to life with precision and professionalism.
+
+Partner with JS Enterprise — your trusted source for mechanical construction excellence.</p>
+  </section>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>JS Enterprise is a trusted name in mechanical construction, known for delivering high-quality, durable, and cost-effective solutions. With a solid foundation built over years of hands-on experience, we specialize in the design, fabrication, and installation of iron platforms, steel structures, industrial sheds, and customized sliding gates.
+
+Our team is composed of skilled engineers, fabricators, and project managers who are committed to delivering excellence in every aspect of our work. We cater to both industrial and commercial clients, offering end-to-end project execution — from initial consultation and planning to on-site construction and final handover.
+
+At JS Enterprise, we combine traditional craftsmanship with modern construction techniques to achieve long-lasting, structurally sound results. Our approach is customer-centric: we listen, adapt, and deliver based on each client's specific requirements and project goals.
+
+Over the years, we've built a reputation for reliability, safety, and integrity. Whether it's a large-scale factory structure or a bespoke gate solution, we bring the same level of dedication and professionalism to every job.
+
+Choose JS Enterprise — where quality meets commitment.</p>
+  </section>
+
+  <section id="services">
+    <h2>Our Services</h2>
+    <div class="services">
+      <div class="card">
+        <img src="images/iron_platfrom.jpeg" alt="Iron Platform">
+        <h3>Iron Platforms</h3>
+        <p>Custom-built iron platforms for industrial use.</p>
+      </div>
+      <div class="card">
+        <img src="images/steel-structure.jpeg" alt="Steel Structures">
+        <h3>Steel Structures</h3>
+        <p>Reliable and strong steel framework construction.</p>
+      </div>
+      <div class="card">
+        <img src="images/sheds-roofing.jpeg" alt="Sheds and Roofing">
+        <h3>Sheds & Roofing</h3>
+        <p>Durable sheds and roofing for factories and warehouses.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Our Projects</h2>
+    <div class="projects">
+      <div class="card">
+        <img src="images/project1.jpeg" alt="Iron Platform">
+        <p>Iron Platform for True Value</p>
+      </div>
+      <div class="card">
+        <img src="images/project2.jpeg" alt="Steel Shed">
+        <p>Steel Shed at TATA Motors</p>
+      </div>
+      <div class="card">
+        <img src="images/project3.jpeg" alt="Sliding Gate">
+        <p>Gate Installation in Rubi Hospital</p>
+      </div>
+    </div>
+  </section>
+   <section id="contact">
+    <h2>Contact Us</h2>
+    <form onsubmit="submitForm(event)">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <textarea placeholder="Your Message" rows="5" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+ 
+  <p>📞 +91 891 039 8260 | ✉️ jul@jsenterprise.in</p>
+   <p>&copy; 2025 JS Enterprise. All rights reserved. Devloped by AK International</p>
+</footer>
+</div>
+<script>
+  const canvas = document.getElementById("bgCanvas");
+  const ctx = canvas.getContext("2d");
+
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  const mode = 3; // Always burst mode
+
+  const colorThemes = [
+    ["#3498db", "#2ecc71"],
+    ["#e67e22", "#f1c40f"],
+    ["#9b59b6", "#1abc9c"],
+    ["#e74c3c", "#16a085"]
+  ];
+
+  let particles = [];
+
+  function Particle(x, y, dx, dy, radius, color) {
+    this.x = x;
+    this.y = y;
+    this.dx = dx;
+    this.dy = dy;
+    this.radius = radius;
+    this.color = color;
+
+    this.draw = function () {
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+      ctx.fill();
+    };
+
+    this.update = function () {
+      if (this.x + this.radius > width || this.x - this.radius < 0) this.dx = -this.dx;
+      if (this.y + this.radius > height || this.y - this.radius < 0) this.dy = -this.dy;
+
+      this.x += this.dx;
+      this.y += this.dy;
+
+      this.draw();
+    };
+  }
+
+  function initParticles() {
+    particles = [];
+    const colorSet = colorThemes[mode % colorThemes.length];
+    const count = 30; // burst mode particle count
+
+    for (let i = 0; i < count; i++) {
+      const radius = Math.random() * 8 + 6; // bigger particles
+      const x = Math.random() * (width - radius * 2) + radius;
+      const y = Math.random() * (height - radius * 2) + radius;
+      const dx = (Math.random() - 0.5) * 0.5;
+      const dy = (Math.random() - 0.5) * 0.5;
+      const color = colorSet[Math.floor(Math.random() * colorSet.length)];
+      particles.push(new Particle(x, y, dx, dy, radius, color));
+    }
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+    }
+  }
+
+  function resizeCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    initParticles();
+  }
+
+  window.addEventListener("resize", resizeCanvas);
+
+  // Initial setup
+  resizeCanvas();
+  animate();
+</script>
+
+</body>
+</html>
